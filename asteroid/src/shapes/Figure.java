@@ -228,24 +228,4 @@ public class Figure extends Drawable
 
 		draw( );
 	}
-
-	/**
-	 * Ausführen von Befehlszeile
-	 * 
-	 * @param args
-	 *            ignoriert
-	 * @throws InterruptedException
-	 */
-	public static void main( String args[] ) throws InterruptedException
-	{
-		Figure snowMan = snowMan( );
-
-		// Nen tanzender Schneemann!
-		for( int i = 0, j = 100; i < j; ++i )
-		{
-			snowMan.move( i > j / 2 ? -5 : 5, 0 );
-			snowMan.rotate( new Point( 400, 400 ), 360.0 / j );
-			Thread.sleep( 50 );
-		}
-	}
 }
