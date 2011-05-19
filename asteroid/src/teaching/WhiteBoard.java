@@ -96,7 +96,7 @@ public class WhiteBoard {
         container = frame.getContentPane();
         container.setLayout(new BorderLayout());
         scrollPane = new JScrollPane(graphicalComponent);
-        scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.getViewport().setBackground(Color.BLACK);
         graphicalComponent.setForeground(Color.GREEN);
         container.add(scrollPane, BorderLayout.CENTER);
         frame.setSize(800, 600);
