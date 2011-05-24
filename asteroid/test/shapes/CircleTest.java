@@ -11,7 +11,7 @@ import org.junit.Test;
  * Testet die Methoden der Circle-Klasse
  * 
  * @author Marcus Bauer
- * @version 201103232050
+ * @version 201105241427
  */
 
 public class CircleTest extends junit.framework.TestCase
@@ -245,5 +245,33 @@ public class CircleTest extends junit.framework.TestCase
 		assertEquals( new Point( -30, -10 ), circle.getCenter( ) );
 		circle.rotate( new Point( 10, 20 ), 180 );
 		assertEquals( new Point( 50, 50 ), circle.getCenter( ) );
+	}
+	
+	/**
+	 * Testet getDrawn auf den Standard-Rückgabewert
+	 */
+	@Test
+	public void testDefaultDrawn( )
+	{
+		assertEquals( circle.getDrawn( ), Shape.DEFAULT_DRAWN );
+	}
+	
+	/**
+	 * Testet setDrawn
+	 */
+	@Test
+	public void testSetDrawn( )
+	{
+		// Nicht zeichnen
+		circle.setDrawn( false );
+		circle.draw( );
+		assertNull( circle.representation );
+		assertEquals( circle.getDrawn( ), false );
+		
+		// Nochmal zeichnen
+		circle.setDrawn( true );
+		circle.draw( );
+		assertNotNull( circle.representation );
+		assertEquals( circle.getDrawn( ), true );
 	}
 }

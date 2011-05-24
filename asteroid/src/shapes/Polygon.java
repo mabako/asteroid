@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Basisklasse für Polygone, die die Eckpunkte verwaltet
  * 
  * @author Marcus Bauer
- * @version 201103232101
+ * @version 201105241427
  */
 public class Polygon extends Shape
 {
@@ -30,17 +30,23 @@ public class Polygon extends Shape
 		// Altes Bild löschen
 		getWhiteBoard( ).removeShape( representation );
 
-		// Punkte laden
-		double[ ] x = new double[ points.size( ) ];
-		double[ ] y = new double[ points.size( ) ];
-		for( int i = 0; i < points.size( ); ++i )
+		// Falls das Polygon gezeichnet werden soll
+		if( this.getDrawn( ) )
 		{
-			x[i] = points.get( i ).getX( );
-			y[i] = points.get( i ).getY( );
-		}
+			// Punkte laden
+			double[ ] x = new double[ points.size( ) ];
+			double[ ] y = new double[ points.size( ) ];
+			for( int i = 0; i < points.size( ); ++i )
+			{
+				x[i] = points.get( i ).getX( );
+				y[i] = points.get( i ).getY( );
+			}
 
-		// Polygon erstellen
-		representation = getWhiteBoard( ).drawPolygon( x, y, getColor( ), isSolid( ), 0 );
+			// Polygon erstellen
+			representation = getWhiteBoard( ).drawPolygon( x, y, getColor( ), isSolid( ), 0 );
+		}
+		else
+			representation = null;
 	}
 
 	/**

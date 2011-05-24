@@ -14,7 +14,7 @@ import org.junit.Test;
  * Testet die Klasse Polygon
  * 
  * @author Marcus Bauer
- * @version 201103232101
+ * @version 201105241427
  */
 public class PolygonTest
 {
@@ -154,6 +154,7 @@ public class PolygonTest
 
 	/**
 	 * getFirstPoint testen
+	 * @throws PolygonShapeException
 	 */
 	@Test
 	public void testGetFirstPoint( ) throws PolygonShapeException
@@ -174,6 +175,7 @@ public class PolygonTest
 
 	/**
 	 * equalsRelative testen
+	 * @throws PolygonShapeException
 	 */
 	@Test
 	public void testEqualsRelative( ) throws PolygonShapeException
@@ -253,5 +255,33 @@ public class PolygonTest
 		assertEquals( new Point( 0, -2 ), points.get( 0 ) );
 		assertEquals( new Point( 4, -4 ), points.get( 1 ) );
 		assertEquals( new Point( 3, 3 ), points.get( 2 ) );
+	}
+	
+	/**
+	 * Testet getDrawn auf den Standard-Rückgabewert
+	 */
+	@Test
+	public void testDefaultDrawn( )
+	{
+		assertEquals( poly.getDrawn( ), Shape.DEFAULT_DRAWN );
+	}
+	
+	/**
+	 * Testet setDrawn
+	 */
+	@Test
+	public void testSetDrawn( )
+	{
+		// Nicht zeichnen
+		poly.setDrawn( false );
+		poly.draw( );
+		assertNull( poly.representation );
+		assertEquals( poly.getDrawn( ), false );
+		
+		// Nochmal zeichnen
+		poly.setDrawn( true );
+		poly.draw( );
+		assertNotNull( poly.representation );
+		assertEquals( poly.getDrawn( ), true );
 	}
 }

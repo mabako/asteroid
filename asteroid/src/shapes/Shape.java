@@ -7,10 +7,13 @@ import teaching.WhiteBoard;
  * Abstrakte Klasse, die die Zeichenfläche beinhaltet und verwaltet.
  * 
  * @author Marcus Bauer
- * @version 201103230956
+ * @version 201105241407
  */
 public abstract class Shape extends Drawable
 {
+	/** Standard-Wert für drawn */
+	protected static final boolean DEFAULT_DRAWN = true;
+
 	/** Whiteboard, das von uns verwaltet wird */
 	private static WhiteBoard whiteBoard = new WhiteBoard( );
 
@@ -22,6 +25,9 @@ public abstract class Shape extends Drawable
 
 	/** Objekt-Repräsentation */
 	protected Object representation;
+
+	/** Speichert den Zustand, ob das Objekt momentan gezeichnet werden soll */
+	private boolean drawn = DEFAULT_DRAWN;
 
 	/**
 	 * welche Farbe derzeit benutzt wird
@@ -81,5 +87,31 @@ public abstract class Shape extends Drawable
 
 		// Erneut zeichnen
 		draw( );
+	}
+
+	/**
+	 * Setzt das Drawable auf <i>wird gezeichnet</i> (true) oder <i>wird nicht
+	 * gezeichnet</i> (false).
+	 * 
+	 * @param drawn
+	 *            true für <i>wird gezeichnet</i>, false sonst.
+	 */
+	public void setDrawn( boolean drawn )
+	{
+		this.drawn = drawn;
+
+		draw( );
+	}
+
+	/**
+	 * Liefert zurück, ob das Objekt gezeichnet wird (und dementsprechend auf
+	 * WhiteBoard existiert)
+	 * 
+	 * @return <code>true</code> falls Objekt gezeichnet wird,
+	 *         <code>false</code> sonst
+	 */
+	public boolean getDrawn( )
+	{
+		return drawn;
 	}
 }

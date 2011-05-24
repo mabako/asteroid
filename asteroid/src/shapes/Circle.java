@@ -41,8 +41,15 @@ public class Circle extends Shape
 	 */
 	public void draw( )
 	{
+		// Objekt von der Zeichenfläche entfernen
 		getWhiteBoard( ).removeShape( representation );
-		representation = getWhiteBoard( ).drawEllipse( center.getX( ), center.getY( ), radius, radius, getColor( ), isSolid( ), 0 );
+		
+		// Falls Objekt gezeichnet werden soll...
+		if( getDrawn( ) )
+			// ... dann, zeichnen!
+			representation = getWhiteBoard( ).drawEllipse( center.getX( ), center.getY( ), radius, radius, getColor( ), isSolid( ), 0 );
+		else
+			representation = null;
 	}
 
 	/**
