@@ -14,11 +14,15 @@ public abstract class Shape extends Drawable
 	/** Standard-Wert für drawn */
 	protected static final boolean DEFAULT_DRAWN = true;
 
+	/** Standard-Fabe für Shapes */
+	protected static final Color DEFAULT_COLOR = Color.BLACK;
+
 	/** Whiteboard, das von uns verwaltet wird */
 	private static WhiteBoard whiteBoard = new WhiteBoard( );
 
 	/** Farbe der Shape */
-	private Color color = new Color( 255, 255, 255 );
+	// TODO Test für getColor/setColor, ob diese Standard-Farbe auch gesetzt werden kann und Shapes unabhänging von der Farbe geändert werden können
+	private Color color = DEFAULT_COLOR;
 
 	/** Solide Fläche? */
 	private boolean solid = false;
