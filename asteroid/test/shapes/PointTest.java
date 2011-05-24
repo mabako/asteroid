@@ -11,7 +11,7 @@ import org.junit.Test;
  * Testet die Methoden der Point-Klasse
  * 
  * @author Marcus Bauer
- * @version 201103232045
+ * @version 201105241427
  */
 public class PointTest
 {
@@ -121,24 +121,30 @@ public class PointTest
 	{
 		// Punkt sollte immer mit sich gleich sein
 		assertTrue( point.equals( point ) );
+		assertEquals( point.hashCode( ), point.hashCode( ) );
 
 		// Sollte niemals mit nem Null-Objekt gleich sein
 		assertFalse( point.equals( null ) );
 
 		// Sollte niemals mit einem nicht-Point Objekt gleich sein
 		assertFalse( point.equals( new Object( ) ) );
+		assertThat( point.hashCode( ), not( equalTo( new Object( ).hashCode( ) ) ) );
 
 		// Punkt mit denselben Koordinaten
 		assertEquals( point, new Point( point.getX( ), point.getY( ) ) );
+		assertEquals( point.hashCode( ), new Point( point.getX( ), point.getY( ) ).hashCode( ) );
 
 		// Punkt mit unterschiedlicher x-Koordinate
 		assertThat( point, not( equalTo( new Point( point.getX( ) + 1, point.getY( ) ) ) ) );
+		assertThat( point.hashCode( ), not( equalTo( new Point( point.getX( ) + 1, point.getY( ) ).hashCode( ) ) ) );
 
 		// Punkt mit unterschiedlicher y-Koordinate
 		assertThat( point, not( equalTo( new Point( point.getX( ), point.getY( ) + 1 ) ) ) );
+		assertThat( point.hashCode( ), not( equalTo( new Point( point.getX( ), point.getY( ) + 1 ).hashCode( ) ) ) );
 
 		// Punkt mit beiden Koordinaten unterschiedlich
 		assertThat( point, not( equalTo( new Point( point.getX( ) + 1, point.getY( ) + 1 ) ) ) );
+		assertThat( point.hashCode( ), not( equalTo( new Point( point.getX( ) + 1, point.getY( ) + 1 ).hashCode( ) ) ) );
 	}
 
 	/**
