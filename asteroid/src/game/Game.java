@@ -6,13 +6,15 @@ import java.util.Random;
  * Das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105251156
+ * @version 201105252124
  */
-public class Game implements Runnable
+public final class Game implements Runnable
 {
 	public Game( )
 	{
-		new Sprite( 100, 100, new Random( ).nextInt( 50 ) + 30 ).createAsteroid( );
+		Sprite s = new Sprite( 100, 100, new Random( ).nextInt( 50 ) + 30 );
+		s.createAsteroid( );
+		new Thread( s ).start( );
 	}
 
 	/**

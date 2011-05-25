@@ -13,9 +13,9 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105251312
+ * @version 201105252124
  */
-public class Sprite
+public class Sprite implements Runnable
 {
 	/** Kollisionsbox der Shape */
 	private Circle boundingBox;
@@ -25,6 +25,13 @@ public class Sprite
 
 	/** Gesamtes Objekt */
 	private Figure gesamt;
+	
+	/** x- und y- Werte, um die das Sprite pro Sekunde bewegt wird */
+	private double angle = 20;
+	private double speed = 0.6;
+	
+	/** Wieoft der Thread pro Sekunde aufgerufen wird */
+	private static final int ITERATIONS_PER_SECOND = 50;
 
 	/**
 	 * Sprite auf Koordinaten erstellen
@@ -75,25 +82,18 @@ public class Sprite
 	 * @param radius
 	 *            der Radius im Bereich von [0 .. originaler Radius], inwieweit
 	 *            der Punkt vom Mittelpunkt entfernt sein darf
-	 * @param winkel
+	 * @param angle
 	 */
-	protected void addPoint( double radius, int winkel )
+	protected void addPoint( double radius, int angle )
 	{
 		// Parameter überprüfen
 		if( radius < 0 || radius > boundingBox.getRadius( ) )
 			throw new IllegalArgumentException( "Radius ist " + radius + ", darf aber nur im Bereich von 0 bis " + boundingBox.getRadius( ) + " liegen." );
-		if( winkel < 0 || winkel >= 360 )
-			throw new IllegalArgumentException( "Winkel ist " + winkel + ", muss aber im Bereich von 0 <= winkel < 360 liegen" );
-
-		// Winkel konvertieren
-		double radians = Math.toRadians( winkel );
+		if( angle < 0 || angle >= 360 )
+			throw new IllegalArgumentException( "Winkel ist " + angle + ", muss aber im Bereich von 0 <= winkel < 360 liegen" );
 
 		// Neue Punkte errechnen
-		double px = radius * Math.sin( radians ) + boundingBox.getCenter( ).getX( );
-		double py = radius * Math.cos( radians ) + boundingBox.getCenter( ).getY( );
-
-		// und zum Polygon hinzufügen
-		physical.addPoint( new Point( px, py ) );
+		physical.addPoint( Util.getPointInFrontOf( boundingBox.getCenter( ), radius, angle ) );
 	}
 
 	/**
@@ -114,5 +114,32 @@ public class Sprite
 	public Polygon getPhysical( )
 	{
 		return physical;
+	}
+	
+	/**
+	 * Bewegt das Sprite als Thread
+	 */
+	public void run( )
+	{
+		// Schleifendurchläufe pro Sekunde errechnen
+		int sleep = 1000 / ITERATIONS_PER_SECOND;
+		do
+		{
+			try
+			{
+				// Neue Koordinaten errechnen
+				Point offset = Util.getPointInFrontOf( speed, angle );
+				
+				// Figur bewegen
+				gesamt.move( offset.getX( ), offset.getY( ) );
+				
+				// Und einige Millisekunden schlafen
+				Thread.sleep( sleep );
+			}
+			catch( InterruptedException e )
+			{
+			}
+		}
+		while( true );
 	}
 }

@@ -4,7 +4,7 @@ package shapes;
  * Ein Punkt in einem 2-dimensionalen Koordinatensystem
  * 
  * @author Marcus Bauer
- * @version 201105252140
+ * @version 201105252150
  */
 final public class Point
 {
@@ -128,6 +128,7 @@ final public class Point
 	 * 
 	 * @param obj
 	 *            der andere Punkt
+	 * @return true, falls beide Punkte dieselben Koordinaten haben, false sonst
 	 */
 	@Override
 	public boolean equals( Object obj )
