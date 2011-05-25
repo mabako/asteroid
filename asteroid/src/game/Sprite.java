@@ -13,7 +13,7 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252357
+ * @version 201105260003
  */
 public class Sprite implements Runnable
 {
@@ -169,6 +169,10 @@ public class Sprite implements Runnable
 			}
 		}
 		while( game.isRunning( ) );
+		
+		// Elemente vom Whiteboard entfernen
+		physical.setDrawn( false );
+		boundingBox.setDrawn( false );
 	}
 
 	/**

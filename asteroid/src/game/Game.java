@@ -10,7 +10,7 @@ import java.util.Random;
  * Das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252357
+ * @version 201105260003
  */
 public final class Game implements Runnable
 {
@@ -35,6 +35,33 @@ public final class Game implements Runnable
 	 */
 	@Override
 	public void run( )
+	{
+		List< Thread > threads = setupSingleGame( );
+
+		// Warten, bis alle Threads beendet sind
+		while( threads.size( ) > 0 )
+		{
+			try
+			{
+				// Beendete Threads entfernen
+				for( Thread t : threads )
+					if( !t.isAlive( ) )
+						threads.remove( t );
+
+				Thread.sleep( 100 );
+			}
+			catch( InterruptedException e )
+			{
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Erstellt alle initialen Asteroiden und das Raumschiff, alles für ein Spiel
+	 * @return
+	 */
+	private List< Thread > setupSingleGame( )
 	{
 		ship = null;
 		asteroids = Collections.synchronizedList( new ArrayList< Sprite >( ) );
@@ -62,24 +89,7 @@ public final class Game implements Runnable
 		// Alle Threads starten
 		for( Thread t : threads )
 			t.start( );
-
-		// Warten, bis alle Threads beendet sind
-		while( threads.size( ) > 0 )
-		{
-			try
-			{
-				// Beendete Threads entfernen
-				for( Thread t : threads )
-					if( !t.isAlive( ) )
-						threads.remove( t );
-
-				Thread.sleep( 100 );
-			}
-			catch( InterruptedException e )
-			{
-				break;
-			}
-		}
+		return threads;
 	}
 
 	/**
