@@ -5,16 +5,17 @@ import static org.hamcrest.CoreMatchers.*;
 
 import java.awt.Color;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Testet die Methoden der Circle-Klasse
  * 
  * @author Marcus Bauer
- * @version 201105241427
+ * @version 201105251209
  */
-
-public class CircleTest extends junit.framework.TestCase
+public class CircleTest
 {
 	/**
 	 * Circle-Objekt
@@ -24,6 +25,7 @@ public class CircleTest extends junit.framework.TestCase
 	/**
 	 * @throws java.lang.Exception
 	 */
+	@Before
 	public void setUp( ) throws Exception
 	{
 		circle = new Circle( 20, new Point( 50, 50 ) );
@@ -32,6 +34,7 @@ public class CircleTest extends junit.framework.TestCase
 	/**
 	 * @throws java.lang.Exception
 	 */
+	@After
 	public void tearDown( ) throws Exception
 	{
 		circle = null;
@@ -55,14 +58,7 @@ public class CircleTest extends junit.framework.TestCase
 	@Test( expected = IllegalArgumentException.class )
 	public void testConstructorWithoutCenter( )
 	{
-		try
-		{
-			new Circle( 20, null );
-			fail( "Kreis ohne Mittelpunkt angelegt" );
-		}
-		catch( IllegalArgumentException e )
-		{
-		}
+		new Circle( 20, null );
 	}
 
 	/**
@@ -71,14 +67,7 @@ public class CircleTest extends junit.framework.TestCase
 	@Test( expected = IllegalArgumentException.class )
 	public void testConstructorWithNegativeRadius( )
 	{
-		try
-		{
-			new Circle( -5, new Point( 5, 5 ) );
-			fail( "Kreis mit negativem Radius angelegt" );
-		}
-		catch( IllegalArgumentException e )
-		{
-		}
+		new Circle( -5, new Point( 5, 5 ) );
 	}
 
 	/**
@@ -246,7 +235,7 @@ public class CircleTest extends junit.framework.TestCase
 		circle.rotate( new Point( 10, 20 ), 180 );
 		assertEquals( new Point( 50, 50 ), circle.getCenter( ) );
 	}
-	
+
 	/**
 	 * Testet getDrawn auf den Standard-Rückgabewert
 	 */
@@ -255,7 +244,7 @@ public class CircleTest extends junit.framework.TestCase
 	{
 		assertEquals( circle.getDrawn( ), Shape.DEFAULT_DRAWN );
 	}
-	
+
 	/**
 	 * Testet setDrawn
 	 */
@@ -267,7 +256,7 @@ public class CircleTest extends junit.framework.TestCase
 		circle.draw( );
 		assertNull( circle.representation );
 		assertEquals( circle.getDrawn( ), false );
-		
+
 		// Nochmal zeichnen
 		circle.setDrawn( true );
 		circle.draw( );
