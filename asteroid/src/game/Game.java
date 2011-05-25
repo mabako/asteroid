@@ -12,7 +12,7 @@ public class Game implements Runnable
 {
 	public Game( )
 	{
-		new Sprite( 100, 100, new Random( ).nextInt( 50 ) + 30 );
+		new Sprite( 100, 100, new Random( ).nextInt( 50 ) + 30 ).createAsteroid( );
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.util.List;
  * Ein Schneemann
  * 
  * @author Marcus Bauer
- * @version 201103232104
+ * @version 201105251241
  */
 public class Figure extends Drawable
 {
@@ -90,8 +90,6 @@ public class Figure extends Drawable
 	 */
 	public Figure addShape( Drawable aDrawable )
 	{
-		// TODO: Erstellt keine Kopie, d.h. Objekte können nachträglich geändert
-		// werden
 		drawables.add( aDrawable );
 		return this;
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import shapes.Circle;
+import shapes.Figure;
 import shapes.Point;
 import shapes.Polygon;
 
@@ -12,26 +13,21 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105251135
+ * @version 201105251312
  */
 public class Sprite
 {
 	/** Kollisionsbox der Shape */
-	protected Circle boundingBox;
+	private Circle boundingBox;
 
 	/** Echte Box (was gezeichnet wird) */
-	protected Polygon physicalBox;
+	private Polygon physical;
+
+	/** Gesamtes Objekt */
+	private Figure gesamt;
 
 	/**
-	 * Konstruktor, falls kein Sprite von dieser Klasse erzeugt werden soll
-	 */
-	protected Sprite( )
-	{
-
-	}
-
-	/**
-	 * Zufälliges Sprite auf Koordinaten erstellen
+	 * Sprite auf Koordinaten erstellen
 	 * 
 	 * @param x
 	 *            X-Koordinate für Sprite-Mittelpunkt
@@ -46,18 +42,31 @@ public class Sprite
 		boundingBox.setColor( Color.RED );
 
 		// Aktuelles Objekt anlegen
-		physicalBox = new Polygon( );
+		physical = new Polygon( );
 
+		// Beide zu einer Figur hinzufügen
+		gesamt = new Figure( );
+		gesamt.addShape( boundingBox );
+		gesamt.addShape( physical );
+	}
+
+	/**
+	 * Erstellt einen Asteroiden als diese Figur, basiert auf zufälligen Daten
+	 * innerhalb der BoundingBox
+	 */
+	public void createAsteroid( )
+	{
 		int winkel = 0;
 		Random zufallsgenerator = new Random( );
-		while( winkel < 360 )
+		do
 		{
 			// Punkt auf Kreis erstellen
-			addPoint( radius / 2 * ( 1 + zufallsgenerator.nextDouble( ) ), winkel );
+			addPoint( (double)boundingBox.getRadius( ) / 2.0 * ( 1.0 + zufallsgenerator.nextDouble( ) ), winkel );
 
 			// Nächsten Winkel generieren
 			winkel = Math.min( 360, winkel + zufallsgenerator.nextInt( 30 ) + 15 );
 		}
+		while( winkel < 360 );
 	}
 
 	/**
@@ -68,11 +77,13 @@ public class Sprite
 	 *            der Punkt vom Mittelpunkt entfernt sein darf
 	 * @param winkel
 	 */
-	private void addPoint( double radius, int winkel )
+	protected void addPoint( double radius, int winkel )
 	{
 		// Parameter überprüfen
 		if( radius < 0 || radius > boundingBox.getRadius( ) )
 			throw new IllegalArgumentException( "Radius ist " + radius + ", darf aber nur im Bereich von 0 bis " + boundingBox.getRadius( ) + " liegen." );
+		if( winkel < 0 || winkel >= 360 )
+			throw new IllegalArgumentException( "Winkel ist " + winkel + ", muss aber im Bereich von 0 <= winkel < 360 liegen" );
 
 		// Winkel konvertieren
 		double radians = Math.toRadians( winkel );
@@ -82,6 +93,26 @@ public class Sprite
 		double py = radius * Math.cos( radians ) + boundingBox.getCenter( ).getY( );
 
 		// und zum Polygon hinzufügen
-		physicalBox.addPoint( new Point( px, py ) );
+		physical.addPoint( new Point( px, py ) );
+	}
+
+	/**
+	 * Liefert die BoundingBox zurück
+	 * 
+	 * @return Die BoundingBox
+	 */
+	public Circle getBoundingBox( )
+	{
+		return boundingBox;
+	}
+
+	/**
+	 * Gibt das zu zeichnende Polygon zurück
+	 * 
+	 * @return das zu zeichnende Polygon
+	 */
+	public Polygon getPhysical( )
+	{
+		return physical;
 	}
 }
