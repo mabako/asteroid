@@ -15,7 +15,7 @@ public abstract class Shape extends Drawable
 	protected static final boolean DEFAULT_DRAWN = true;
 
 	/** Standard-Fabe für Shapes */
-	protected static final Color DEFAULT_COLOR = Color.BLACK;
+	protected static final Color DEFAULT_COLOR = Color.WHITE;
 
 	/** Whiteboard, das von uns verwaltet wird */
 	private static WhiteBoard whiteBoard = new WhiteBoard( );
