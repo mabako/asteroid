@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Basisklasse für Polygone, die die Eckpunkte verwaltet
  * 
  * @author Marcus Bauer
- * @version 201105241427
+ * @version 201105251156
  */
 public class Polygon extends Shape
 {
@@ -108,6 +108,18 @@ public class Polygon extends Shape
 		for( Point p : points )
 			this.points.add( p.copy( ) );
 
+		draw( );
+	}
+
+	/**
+	 * Fügt dem Polygon einen Punkt hinzu
+	 * 
+	 * @param point
+	 *            Punkt, der hinzugefügt werden soll
+	 */
+	public void addPoint( Point point )
+	{
+		points.add( point.copy( ) );
 		draw( );
 	}
 

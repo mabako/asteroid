@@ -14,7 +14,7 @@ import org.junit.Test;
  * Testet die Klasse Polygon
  * 
  * @author Marcus Bauer
- * @version 201105241427
+ * @version 201105251200
  */
 public class PolygonTest
 {
@@ -133,6 +133,27 @@ public class PolygonTest
 		}
 	}
 
+	/**
+	 * Tested addPoint
+	 */
+	@Test
+	public void testAddPoint( )
+	{
+		// Kein Punkt bis jetzt
+		poly.draw( );
+		assertNull( poly.representation );
+
+		// Nur ein Punkt
+		poly.addPoint( new Point( 50, 100 ) );
+		poly.draw( );
+		assertNull( poly.representation );
+
+		// Zwei Punkte - sollte gezeichnet werden
+		poly.addPoint( new Point( 30, 50 ) );
+		poly.draw( );
+		assertNotNull( poly.representation );
+	}
+
 	@Test
 	public void testMoveIntInt( ) throws PolygonShapeException
 	{
@@ -154,6 +175,7 @@ public class PolygonTest
 
 	/**
 	 * getFirstPoint testen
+	 * 
 	 * @throws PolygonShapeException
 	 */
 	@Test
@@ -175,6 +197,7 @@ public class PolygonTest
 
 	/**
 	 * equalsRelative testen
+	 * 
 	 * @throws PolygonShapeException
 	 */
 	@Test
@@ -256,7 +279,7 @@ public class PolygonTest
 		assertEquals( new Point( 4, -4 ), points.get( 1 ) );
 		assertEquals( new Point( 3, 3 ), points.get( 2 ) );
 	}
-	
+
 	/**
 	 * Testet getDrawn auf den Standard-Rückgabewert
 	 */
@@ -265,19 +288,28 @@ public class PolygonTest
 	{
 		assertEquals( poly.getDrawn( ), Shape.DEFAULT_DRAWN );
 	}
-	
+
 	/**
 	 * Testet setDrawn
+	 * 
+	 * @throws PolygonShapeException
 	 */
 	@Test
-	public void testSetDrawn( )
+	public void testSetDrawn( ) throws PolygonShapeException
 	{
+		// Einize Punkte hinzufügen, da sonst nichts gezeichnet werden kann
+		ArrayList< Point > points = new ArrayList< Point >( );
+		points.add( new Point( 3, 1 ) );
+		points.add( new Point( 5, 5 ) );
+		points.add( new Point( -2, 4 ) );
+		poly.setPoints( points );
+
 		// Nicht zeichnen
 		poly.setDrawn( false );
 		poly.draw( );
 		assertNull( poly.representation );
 		assertEquals( poly.getDrawn( ), false );
-		
+
 		// Nochmal zeichnen
 		poly.setDrawn( true );
 		poly.draw( );
