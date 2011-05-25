@@ -10,12 +10,13 @@ import org.junit.Test;
 import shapes.Circle;
 import shapes.Point;
 import shapes.Polygon;
+import shapes.PolygonShapeException;
 
 /**
  * Testet die Methoden der Sprite-Klasse
  * 
  * @author Marcus Bauer
- * @version 201105251312
+ * @version 201105252236
  */
 public class SpriteTest
 {
@@ -160,5 +161,52 @@ public class SpriteTest
 	public void testAddPointTooLargePhi( )
 	{
 		sprite.addPoint( sprite.getBoundingBox( ).getRadius( ), 360 );
+	}
+	
+	/**
+	 * Testet get- und setMoveSpeed
+	 */
+	@Test
+	public void testGetSetMoveSpeed( )
+	{
+		sprite.setMoveSpeed( 1.0 );
+		assertEquals( sprite.getMoveSpeed( ), 1.0, Point.DELTA );
+		
+		sprite.setMoveSpeed( 0.01 );
+		assertEquals( sprite.getMoveSpeed( ), 0.01, Point.DELTA );
+		
+		sprite.setMoveSpeed( 0.007 );
+		assertEquals( sprite.getMoveSpeed( ), 0.007, Point.DELTA );
+	}
+	
+	/**
+	 * Testet get- und setAngle
+	 * @throws PolygonShapeException 
+	 */
+	@Test
+	public void testGetSetAngle( ) throws PolygonShapeException
+	{
+		sprite.createAsteroid( );
+		
+		// Winkel setzen und vergleichen
+		sprite.setAngle( 200 );
+		assertEquals( sprite.getAngle( ), 200, Point.DELTA );
+		
+		// Polygon kopieren
+		Polygon poly = new Polygon( );
+		poly.setPoints( sprite.getPhysical( ).getPoints( ) );
+
+		// BoundingBox kopieren
+		Circle boundingBox = new Circle( sprite.getBoundingBox( ).getRadius( ), sprite.getBoundingBox( ).getCenter( ) );
+		
+		// Winkel ändern
+		sprite.setAngle( 318 );
+		
+		// Polygone sollten sich unterscheiden
+		assertFalse( poly.equalsRelative( sprite.getPhysical( ), new Point( 0, 0 ) ) );
+		
+		// Wohingegen die BoundingBox gleich bleibt
+		assertEquals( boundingBox.getCenter( ), sprite.getBoundingBox( ).getCenter( ) );
+		assertEquals( boundingBox.getRadius( ), sprite.getBoundingBox( ).getRadius( ) );
 	}
 }

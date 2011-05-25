@@ -13,7 +13,7 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252124
+ * @version 201105252223
  */
 public class Sprite implements Runnable
 {
@@ -25,11 +25,13 @@ public class Sprite implements Runnable
 
 	/** Gesamtes Objekt */
 	private Figure gesamt;
-	
-	/** x- und y- Werte, um die das Sprite pro Sekunde bewegt wird */
-	private double angle = 20;
-	private double speed = 0.6;
-	
+
+	/** Winkel, in dem sich das Sprite bewegt */
+	private double angle = 0;
+
+	/** Distanz, um die das Sprite pro Sekunde bewegt wird */
+	private double speed = 0;
+
 	/** Wieoft der Thread pro Sekunde aufgerufen wird */
 	private static final int ITERATIONS_PER_SECOND = 50;
 
@@ -68,7 +70,7 @@ public class Sprite implements Runnable
 		do
 		{
 			// Punkt auf Kreis erstellen
-			addPoint( (double)boundingBox.getRadius( ) / 2.0 * ( 1.0 + zufallsgenerator.nextDouble( ) ), winkel );
+			addPoint( (double) boundingBox.getRadius( ) / 2.0 * ( 1.0 + zufallsgenerator.nextDouble( ) ), winkel );
 
 			// Nächsten Winkel generieren
 			winkel = Math.min( 360, winkel + zufallsgenerator.nextInt( 30 ) + 15 );
@@ -115,7 +117,7 @@ public class Sprite implements Runnable
 	{
 		return physical;
 	}
-	
+
 	/**
 	 * Bewegt das Sprite als Thread
 	 */
@@ -129,10 +131,10 @@ public class Sprite implements Runnable
 			{
 				// Neue Koordinaten errechnen
 				Point offset = Util.getPointInFrontOf( speed, angle );
-				
+
 				// Figur bewegen
 				gesamt.move( offset.getX( ), offset.getY( ) );
-				
+
 				// Und einige Millisekunden schlafen
 				Thread.sleep( sleep );
 			}
@@ -141,5 +143,54 @@ public class Sprite implements Runnable
 			}
 		}
 		while( true );
+	}
+
+	/**
+	 * Gibt den Winkel zurück, in dem das Sprite bewegt wird.
+	 * 
+	 * @return Winkel
+	 */
+	public double getAngle( )
+	{
+		return angle;
+	}
+
+	/**
+	 * Setzt den Winkel, in dem sich das Sprite bewegt.
+	 * 
+	 * @param angle
+	 *            der zu setzende Winkel
+	 */
+	public void setAngle( double angle )
+	{
+		// Sprite rotieren
+		double diff = this.angle - angle;
+		gesamt.rotate( boundingBox.getCenter( ), diff );
+
+		// Winkel speichern
+		this.angle = angle;
+	}
+
+	/**
+	 * Gibt die Bewegungsgeschwindigkeit (zurückgelegte Entfernung pro Sekunde)
+	 * zurück
+	 * 
+	 * @return Bewegungsgeschwindigkeit
+	 */
+	public double getMoveSpeed( )
+	{
+		return speed;
+	}
+
+	/**
+	 * Setzt die Bewegungsgeschwindigkeit (zurückgelegte Entfernung pro Sekunde)
+	 * des Sprite
+	 * 
+	 * @param speed
+	 *            neue Geschwindigkeit
+	 */
+	public void setMoveSpeed( double speed )
+	{
+		this.speed = speed;
 	}
 }
