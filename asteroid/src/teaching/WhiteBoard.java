@@ -73,12 +73,19 @@ public class WhiteBoard {
     private double maxY;
     /** Komponente, die die eigentliche Darstellung uebernimmt. */
     private JComponent graphicalComponent = new DrawingArea();
+    /** Gibt an, ob die Spielfeldgrenzen neu berechnet werden sollen */
+    private static final boolean increaseBounds = false;
 
     /** Legt ein neues WhiteBoard-Objekt an. Dieses wird automatisch
      * in einem eigenen Fenster dargestellt.
      */
     public WhiteBoard() {
         minX = maxX = minY = maxY = 0;
+        if(!increaseBounds)
+        {
+        	maxX = 640;
+        	maxY = 480;
+        }
         closeListener = new WindowAdapter() {
 
             @Override
@@ -110,7 +117,10 @@ public class WhiteBoard {
      * durchgearbeitet.
      * @return gibt an, ob sich die Groesse geaendert hat
      */
-    private boolean recomputeBounds() {
+    @SuppressWarnings( "unused" )
+	private boolean recomputeBounds() {
+    	if(!increaseBounds)
+    		return false;
         AttributedShape as;
         Rectangle r;
         boolean boundsChanged = (shapes.size() == 0);
@@ -154,6 +164,8 @@ public class WhiteBoard {
         if (boundsChanged) {
             graphicalComponent.revalidate();
         }
+
+        System.out.println("New bounds: " + minX + " " + minY + " " + maxX + " " + maxY);
         return boundsChanged;
     }
 
@@ -171,7 +183,11 @@ public class WhiteBoard {
      * @param s hinzugefuegtes Zeichnungselement
      * @param rotation Drehung des Zeichenelements
      */
-    private boolean recomputeBounds(Shape s, double rotation) {
+    @SuppressWarnings( "unused" )
+	private boolean recomputeBounds(Shape s, double rotation) {
+    	if(!increaseBounds)
+    		return false;
+    	
         Rectangle r = s.getBounds();
         if (rotation != 0.0) {
             Point p = r.getLocation();
@@ -206,6 +222,8 @@ public class WhiteBoard {
         if (boundsChanged) {
             graphicalComponent.revalidate();
         }
+        
+        System.out.println("New bounds: " + minX + " " + minY + " " + maxX + " " + maxY);
         return boundsChanged;
     }
 
