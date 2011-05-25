@@ -31,7 +31,7 @@ public class Polygon extends Shape
 		getWhiteBoard( ).removeShape( representation );
 
 		// Falls das Polygon gezeichnet werden soll
-		if( this.getDrawn( ) )
+		if( getDrawn( ) && points.size( ) >= 2 )
 		{
 			// Punkte laden
 			double[ ] x = new double[ points.size( ) ];
