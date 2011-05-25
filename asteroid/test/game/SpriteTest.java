@@ -108,9 +108,7 @@ public class SpriteTest
 		for( Point p : points )
 		{
 			// Abstand berechnen
-			double dx = Math.abs( p.getX( ) - center.getX( ) );
-			double dy = Math.abs( p.getY( ) - center.getY( ) );
-			assertTrue( Math.sqrt( dx * dx + dy * dy ) <= radius );
+			assertTrue( p.distanceTo( center ) <= radius );
 		}
 	}
 

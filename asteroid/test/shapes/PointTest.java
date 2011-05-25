@@ -2,7 +2,6 @@ package shapes;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,7 @@ import org.junit.Test;
  * Testet die Methoden der Point-Klasse
  * 
  * @author Marcus Bauer
- * @version 201105241427
+ * @version 201105252141
  */
 public class PointTest
 {
@@ -196,16 +195,29 @@ public class PointTest
 	/**
 	 * Testet rotate mit ungültigem Mittelpunkt
 	 */
-	@Test
+	@Test( expected = IllegalArgumentException.class )
 	public void testRotateNoPoint( )
 	{
-		try
-		{
-			point.rotate( null, 30 );
-			fail( "Punkt konnte mit 'null' als Mittelpunkt gedreht werden" );
-		}
-		catch( IllegalArgumentException e )
-		{
-		}
+		point.rotate( null, 30 );
+	}
+
+	/**
+	 * Testet die Entfernungsberechnung zwischen zwei Punkten
+	 */
+	@Test
+	public void testDistanceTo( )
+	{
+		// Abstand zum Punkt selber ist 0
+		assertEquals( point.distanceTo( point ), 0, Point.DELTA );
+
+		// Abstand zum Punkt, der um eine Koordinate verschoben ist, ist 1
+		// (immer positiv)
+		assertEquals( point.distanceTo( point.copy( ).move( 1, 0 ) ), 1, Point.DELTA );
+		assertEquals( point.distanceTo( point.copy( ).move( -1, 0 ) ), 1, Point.DELTA );
+		assertEquals( point.distanceTo( point.copy( ).move( 0, 1 ) ), 1, Point.DELTA );
+		assertEquals( point.distanceTo( point.copy( ).move( 0, -1 ) ), 1, Point.DELTA );
+
+		// (-3)² + (-4)² = 5²
+		assertEquals( point.distanceTo( point.copy( ).move( -3, -4 ) ), 5, Point.DELTA );
 	}
 }

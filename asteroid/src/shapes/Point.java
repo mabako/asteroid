@@ -4,7 +4,7 @@ package shapes;
  * Ein Punkt in einem 2-dimensionalen Koordinatensystem
  * 
  * @author Marcus Bauer
- * @version 201104220244
+ * @version 201105252140
  */
 final public class Point
 {
@@ -144,5 +144,21 @@ final public class Point
 		if( Math.abs( y - other.y ) > Point.DELTA )
 			return false;
 		return true;
+	}
+
+	/**
+	 * Liefert die Entfernung zwischen diesem Punkt und einem anderen Punkt
+	 * zurück
+	 * 
+	 * @param other
+	 *            der andere Punkt
+	 * @return Entfernung zwischen beiden Punkten
+	 */
+	public double distanceTo( Point other )
+	{
+		double dx = Math.abs( getX( ) - other.getX( ) );
+		double dy = Math.abs( getY( ) - other.getY( ) );
+
+		return Math.sqrt( dx * dx + dy * dy );
 	}
 }
