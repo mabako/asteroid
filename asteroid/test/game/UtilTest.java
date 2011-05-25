@@ -12,7 +12,7 @@ import shapes.Point;
  * Testet die Util-Klasse
  * 
  * @author Marcus Bauer
- * @version 201105252200
+ * @version 201105252238
  */
 public class UtilTest
 {
@@ -61,5 +61,13 @@ public class UtilTest
 		assertThat( Util.getPointInFrontOf( p, 3, 90 ), equalTo( p.copy( ).move( 3, 0 ) ) );
 		assertThat( Util.getPointInFrontOf( p, 4, 180 ), equalTo( p.copy( ).move( 0, -4 ) ) );
 		assertThat( Util.getPointInFrontOf( p, 5, 270 ), equalTo( p.copy( ).move( -5, 0 ) ) );
+	}
+	/**
+	 * Testet getPointInFrontOf mit <code>null</code> als Ursprung
+	 */
+	@Test( expected = IllegalArgumentException.class )
+	public void testGetPointInFrontOfNull( )
+	{
+		Util.getPointInFrontOf( null, 4, 20 );
 	}
 }

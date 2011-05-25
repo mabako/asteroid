@@ -6,14 +6,18 @@ import shapes.Point;
  * Hilfsfunktionen für das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252037
+ * @version 201105252240
  */
 public class Util
 {
 	/**
-	 * Berechnet den Punkt, der von (0, 0) mit einem bestimmten Radius in einem bestimmten Winkel anliegt
-	 * @param distance Entfernung, die der neue Punkt haben soll
-	 * @param winkel Winkel
+	 * Berechnet den Punkt, der von (0, 0) mit einem bestimmten Radius in einem
+	 * bestimmten Winkel anliegt
+	 * 
+	 * @param distance
+	 *            Entfernung, die der neue Punkt haben soll
+	 * @param winkel
+	 *            Winkel
 	 * @return der neue Punkt
 	 */
 	public static Point getPointInFrontOf( double distance, double angle )
@@ -27,12 +31,17 @@ public class Util
 		// und zum Polygon hinzufügen
 		return new Point( px, py );
 	}
-	
+
 	/**
-	 * Berechnet den Punkt, der von gegebenem Ursprung mit einem bestimmten Radius in einem bestimmten Winkel anliegt
-	 * @param center der Ursprung
-	 * @param distance Entfernung, die der neue Punkt haben soll
-	 * @param winkel Winkel
+	 * Berechnet den Punkt, der von gegebenem Ursprung mit einem bestimmten
+	 * Radius in einem bestimmten Winkel anliegt
+	 * 
+	 * @param center
+	 *            der Ursprung
+	 * @param distance
+	 *            Entfernung, die der neue Punkt haben soll
+	 * @param winkel
+	 *            Winkel
 	 * @return der neue Punkt
 	 */
 	public static Point getPointInFrontOf( Point center, double distance, double angle )
