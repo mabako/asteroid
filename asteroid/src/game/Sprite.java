@@ -13,7 +13,7 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252223
+ * @version 201105252316
  */
 public class Sprite implements Runnable
 {
@@ -164,7 +164,7 @@ public class Sprite implements Runnable
 	public void setAngle( double angle )
 	{
 		// Sprite rotieren
-		double diff = this.angle - angle;
+		double diff = angle - this.angle;
 		gesamt.rotate( boundingBox.getCenter( ), diff );
 
 		// Winkel speichern
