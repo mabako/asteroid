@@ -13,10 +13,13 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105252316
+ * @version 201105252357
  */
 public class Sprite implements Runnable
 {
+	/** Spielinstanz */
+	private Game game;
+
 	/** Kollisionsbox der Shape */
 	private Circle boundingBox;
 
@@ -38,14 +41,18 @@ public class Sprite implements Runnable
 	/**
 	 * Sprite auf Koordinaten erstellen
 	 * 
+	 * @param game
+	 *            die Spielinstanz
 	 * @param x
 	 *            X-Koordinate für Sprite-Mittelpunkt
 	 * @param y
 	 *            Y-Koordinate für Sprite-Mittelpunkt
 	 * @param radius
 	 */
-	public Sprite( double x, double y, int radius )
+	public Sprite( Game game, double x, double y, int radius )
 	{
+		this.game = game;
+
 		// Boundingbox anlegen - Größe zufällig
 		boundingBox = new Circle( radius, new Point( x, y ) );
 		boundingBox.setColor( Color.RED );
@@ -76,6 +83,8 @@ public class Sprite implements Runnable
 			winkel = Math.min( 360, winkel + zufallsgenerator.nextInt( 30 ) + 15 );
 		}
 		while( winkel < 360 );
+
+		game.getAsteroids( ).add( this );
 	}
 
 	/**
@@ -96,6 +105,16 @@ public class Sprite implements Runnable
 
 		// Neue Punkte errechnen
 		physical.addPoint( Util.getPointInFrontOf( boundingBox.getCenter( ), radius, angle ) );
+	}
+
+	/**
+	 * Liefert die Spielinstanz zurück
+	 * 
+	 * @return Die Spielinstanz
+	 */
+	public Game getGame( )
+	{
+		return game;
 	}
 
 	/**
@@ -127,14 +146,21 @@ public class Sprite implements Runnable
 		int sleep = 1000 / ITERATIONS_PER_SECOND;
 		do
 		{
-			try
+			// Sofern sich unser Sprite nicht bewegt, ist Kollisionsberechnung witzlos
+			if( speed > Point.DELTA )
 			{
 				// Neue Koordinaten errechnen
 				Point offset = Util.getPointInFrontOf( speed, angle );
-
+	
 				// Figur bewegen
 				gesamt.move( offset.getX( ), offset.getY( ) );
+	
+				// Kollisionen berechnen
+				updateCollisions( );
+			}
 
+			try
+			{
 				// Und einige Millisekunden schlafen
 				Thread.sleep( sleep );
 			}
@@ -142,7 +168,7 @@ public class Sprite implements Runnable
 			{
 			}
 		}
-		while( true );
+		while( game.isRunning( ) );
 	}
 
 	/**
@@ -192,5 +218,30 @@ public class Sprite implements Runnable
 	public void setMoveSpeed( double speed )
 	{
 		this.speed = speed;
+	}
+
+	/**
+	 * Berechnet die Kollisionen
+	 */
+	protected void updateCollisions( )
+	{
+		// In diesem Fall nur relevant für Kollisionen mit dem Schiff
+		if( collidesWith( game.getShip( ) ) )
+		{
+			game.stop( );
+		}
+	}
+
+	/**
+	 * Überprüft, ob sich dieses Sprite mit einem anderen schneidet
+	 * 
+	 * @param other
+	 *            anderes Sprite
+	 * @return true, falls sich die Sprites schneiden, false sonst
+	 */
+	protected boolean collidesWith( Sprite other )
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
