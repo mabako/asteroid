@@ -159,7 +159,6 @@ public class PointTest
 		assertEquals( new Point( 1414, 0 ), new Point( (int) p.getX( ), p.getY( ) ) );
 
 		// Dreht den Punkt 15x 15° um Koordinatenursprung => 45° + 225° = 270°
-		// FIXME: Praktikumsanleitung sagt (1000, 1000) als Punkt?
 		for( int i = 0; i < 15; ++i )
 			p.rotate( new Point( 0, 0 ), 15 );
 		assertEquals( new Point( -1000, 1000 ), p );
