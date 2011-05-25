@@ -34,6 +34,8 @@ public class Circle extends Shape
 			throw new IllegalArgumentException( "Mittelpunkt des Kreises ist <null>" );
 		this.radius = radius;
 		this.center = center.copy( );
+		
+		draw( );
 	}
 
 	/**
