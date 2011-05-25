@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +11,7 @@ import java.util.Random;
  * Das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105260003
+ * @version 201105260020
  */
 public final class Game implements Runnable
 {
@@ -41,13 +42,17 @@ public final class Game implements Runnable
 		// Warten, bis alle Threads beendet sind
 		while( threads.size( ) > 0 )
 		{
+			// Beendete Threads entfernen
+			Iterator< Thread > iter = threads.iterator( );
+			while( iter.hasNext( ) )
+			{
+				Thread t = iter.next( );
+				if( !t.isAlive( ) )
+					iter.remove( );
+			}
+			
 			try
 			{
-				// Beendete Threads entfernen
-				for( Thread t : threads )
-					if( !t.isAlive( ) )
-						threads.remove( t );
-
 				Thread.sleep( 100 );
 			}
 			catch( InterruptedException e )
