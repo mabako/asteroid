@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.util.Random;
 
 import shapes.Circle;
@@ -42,6 +43,7 @@ public class Sprite
 	{
 		// Boundingbox anlegen - Größe zufällig
 		boundingBox = new Circle( radius, new Point( x, y ) );
+		boundingBox.setColor( Color.RED );
 
 		// Aktuelles Objekt anlegen
 		physicalBox = new Polygon( );
