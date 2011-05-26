@@ -76,14 +76,14 @@ public final class Game implements Runnable
 		List< Thread > threads = new LinkedList< Thread >( );
 		
 		// Raumschiff erstellen
-		ControlledSprite cs = new ControlledSprite( this, 300, 300, 15 );
-		cs.createShip( );
-		cs.setAngle( -130 );
-		cs.setMoveSpeed( 2 );
-		threads.add( new Thread( cs ) );
+		ship = new ControlledSprite( this, 300, 300, 15 );
+		ship.createShip( );
+		ship.setAngle( -130 );
+		ship.setMoveSpeed( 2 );
+		threads.add( new Thread( ship ) );
 		
 		// Whiteboard temporär speichern
-		WhiteBoard whiteBoard = cs.getPhysical( ).getWhiteBoard( );
+		WhiteBoard whiteBoard = ship.getPhysical( ).getWhiteBoard( );
 
 		// Asteroiden anlegen
 		Random zufallsgenerator = new Random( );

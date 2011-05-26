@@ -246,9 +246,6 @@ public class Sprite implements Runnable
 	 */
 	protected boolean collidesWith( Sprite other )
 	{
-		if( other == null )
-			return false;
-		
 		// Testet die BoundingBoxen: Falls zu weit entfernt, müssen Polygone
 		// auch nicht verglichen werden
 		if( boundingBox.getCenter( ).distanceTo( other.getBoundingBox( ).getCenter( ) ) > ( boundingBox.getRadius( ) + other.getBoundingBox( ).getRadius( ) ) )
