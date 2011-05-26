@@ -7,13 +7,14 @@ import shapes.Circle;
 import shapes.Figure;
 import shapes.Point;
 import shapes.Polygon;
+import teaching.WhiteBoard;
 
 /**
  * Klasse für Sprites, die im Falle von Asteroiden zufällig erstellt werden
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261441
+ * @version 201105261529
  */
 public class Sprite implements Runnable
 {
@@ -161,6 +162,23 @@ public class Sprite implements Runnable
 				gesamt.move( offset.getX( ), offset.getY( ) );
 
 				hasBeenChanged = true;
+				
+				// Grenzen-check
+				Point center = boundingBox.getCenter( );
+				int radius = boundingBox.getRadius( );
+				WhiteBoard whiteBoard = boundingBox.getWhiteBoard( );
+				
+				// Links/Rechts
+				if( center.getX( ) < whiteBoard.getMinX( ) - radius )
+					gesamt.move( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) + 2 * radius, 0 );
+				else if( center.getX( ) > whiteBoard.getMaxX( ) + radius )
+					gesamt.move( whiteBoard.getMinX( ) - whiteBoard.getMaxX( ) - 2 * radius, 0 );
+				
+				// Oben/Unten
+				if( center.getY( ) < whiteBoard.getMinY( ) - radius )
+					gesamt.move( 0, whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) + 2 * radius );
+				else if( center.getY( ) > whiteBoard.getMaxY( ) + radius )
+					gesamt.move( 0, whiteBoard.getMinY( ) - whiteBoard.getMaxY( ) - 2 * radius );
 			}
 
 			// Sprite drehen
@@ -186,11 +204,6 @@ public class Sprite implements Runnable
 			}
 		}
 		while( game.isRunning( ) );
-
-		// Elemente vom Whiteboard entfernen
-		physical.setDrawn( false );
-		boundingBox.setDrawn( false );
-		game.getAsteroids( ).remove( this );
 	}
 
 	/**
