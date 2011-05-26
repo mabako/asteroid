@@ -146,15 +146,16 @@ public class Sprite implements Runnable
 		int sleep = 1000 / ITERATIONS_PER_SECOND;
 		do
 		{
-			// Sofern sich unser Sprite nicht bewegt, ist Kollisionsberechnung witzlos
+			// Sofern sich unser Sprite nicht bewegt, ist Kollisionsberechnung
+			// witzlos
 			if( speed > Point.DELTA )
 			{
 				// Neue Koordinaten errechnen
 				Point offset = Util.getPointInFrontOf( speed, angle );
-	
+
 				// Figur bewegen
 				gesamt.move( offset.getX( ), offset.getY( ) );
-	
+
 				// Kollisionen berechnen
 				updateCollisions( );
 			}
@@ -169,7 +170,7 @@ public class Sprite implements Runnable
 			}
 		}
 		while( game.isRunning( ) );
-		
+
 		// Elemente vom Whiteboard entfernen
 		physical.setDrawn( false );
 		boundingBox.setDrawn( false );
@@ -245,7 +246,14 @@ public class Sprite implements Runnable
 	 */
 	protected boolean collidesWith( Sprite other )
 	{
+		if( other == null )
+			return false;
+		
+		// Testet die BoundingBoxen: Falls zu weit entfernt, müssen Polygone
+		// auch nicht verglichen werden
+		if( boundingBox.getCenter( ).distanceTo( other.getBoundingBox( ).getCenter( ) ) > ( boundingBox.getRadius( ) + other.getBoundingBox( ).getRadius( ) ) )
+			return false;
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }
