@@ -11,7 +11,7 @@ import java.util.Random;
  * Das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105260020
+ * @version 201105261223
  */
 public final class Game implements Runnable
 {
@@ -39,25 +39,19 @@ public final class Game implements Runnable
 	{
 		List< Thread > threads = setupSingleGame( );
 
+		// Alle Threads starten
+		for( Thread t : threads )
+			t.start( );
+		
 		// Warten, bis alle Threads beendet sind
-		while( threads.size( ) > 0 )
+		for( Thread t : threads )
 		{
-			// Beendete Threads entfernen
-			Iterator< Thread > iter = threads.iterator( );
-			while( iter.hasNext( ) )
-			{
-				Thread t = iter.next( );
-				if( !t.isAlive( ) )
-					iter.remove( );
-			}
-			
 			try
 			{
-				Thread.sleep( 100 );
+				t.join( );
 			}
 			catch( InterruptedException e )
 			{
-				break;
 			}
 		}
 	}
@@ -90,10 +84,6 @@ public final class Game implements Runnable
 		cs.setAngle( -130 );
 		cs.setMoveSpeed( 2 );
 		threads.add( new Thread( cs ) );
-
-		// Alle Threads starten
-		for( Thread t : threads )
-			t.start( );
 		return threads;
 	}
 
