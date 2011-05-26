@@ -16,7 +16,7 @@ import shapes.PolygonShapeException;
  * Testet die Methoden der Sprite-Klasse
  * 
  * @author Marcus Bauer
- * @version 201105252343
+ * @version 201105261603
  */
 public class SpriteTest
 {
@@ -38,7 +38,7 @@ public class SpriteTest
 	@Before
 	public void setUp( )
 	{
-		sprite = new Sprite( new Game( ), x, y, radius );
+		sprite = new Sprite( new Game( null ), x, y, radius );
 	}
 
 	/**

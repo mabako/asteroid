@@ -1,10 +1,12 @@
 package game;
 
+import gui.GameKeyListener;
+
 /**
  * Hauptklasse für das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105251156
+ * @version 201105251600
  */
 public class Main
 {
@@ -16,8 +18,10 @@ public class Main
 	 */
 	public static void main( String[ ] args )
 	{
+		GameKeyListener keyListener = new GameKeyListener( );
+		
 		// Spiel-Instanz erstellen
-		Game game = new Game( );
+		Game game = new Game( keyListener );
 
 		// Thread dafür starten
 		Thread thread = new Thread( game );

@@ -75,6 +75,8 @@ public class WhiteBoard {
     private JComponent graphicalComponent = new DrawingArea();
     /** Gibt an, ob die Spielfeldgrenzen neu berechnet werden sollen */
     private static final boolean increaseBounds = false;
+    /** aktueller KeyListener */
+    private KeyListener keyListener = null;
 
     /** Legt ein neues WhiteBoard-Objekt an. Dieses wird automatisch
      * in einem eigenen Fenster dargestellt.
@@ -597,5 +599,17 @@ public class WhiteBoard {
 	public double getMaxY( )
 	{
 		return maxY;
+	}
+	
+	/**
+	 * Setzt einen KeyListener für das JFrame
+	 * @param keyListener der zu setzende KeyListener
+	 */
+
+	public void setKeyListener( KeyListener keyListener )
+	{
+		frame.removeKeyListener( this.keyListener );
+		frame.addKeyListener( keyListener );
+		this.keyListener = keyListener;
 	}
 }

@@ -1,5 +1,7 @@
 package game;
 
+import gui.GameKeyListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,7 +15,7 @@ import teaching.WhiteBoard;
  * 
  * @author Marcus Bauer (mabako@gmail.com)
  *         Mathias Kuschel (mathias.kuschel@gmx.de)
- * @version 201105261442
+ * @version 201105261600
  */
 public final class Game implements Runnable
 {
@@ -29,11 +31,18 @@ public final class Game implements Runnable
 	/** Anzahl der zu erstellenden Asteroiden */
 	private int asteroidCount = 20;
 
+	/** KeyListener für GUI */
+	private GameKeyListener keyListener;
+
 	/**
 	 * Konstruktor für das Spiel
+	 * 
+	 * @param keyListener
+	 *            der KeyListener für GUI
 	 */
-	public Game( )
+	public Game( GameKeyListener keyListener )
 	{
+		this.keyListener = keyListener;
 	}
 
 	/**
@@ -79,7 +88,7 @@ public final class Game implements Runnable
 		List< Thread > threads = new LinkedList< Thread >( );
 
 		// Raumschiff erstellen
-		ship = new ControlledSprite( this, 300, 300, 15 );
+		ship = new ControlledSprite( this, 300, 300, 15, keyListener );
 		ship.createShip( );
 		ship.setAngle( -130 );
 		ship.setMoveSpeed( 50 );
@@ -87,6 +96,7 @@ public final class Game implements Runnable
 
 		// Whiteboard temporär speichern
 		WhiteBoard whiteBoard = ship.getPhysical( ).getWhiteBoard( );
+		whiteBoard.setKeyListener( keyListener );
 
 		// Asteroiden anlegen
 		for( int i = 0; i < asteroidCount; ++i )
@@ -141,7 +151,7 @@ public final class Game implements Runnable
 				angle = zufallsgenerator.nextDouble( ) * 90 + 135;
 				break;
 		}
-		
+
 		// Zufällig im Winkel von -30° < w < 30° drehen
 		double rotateAngle = ( zufallsgenerator.nextDouble( ) - 0.5 ) * 60;
 

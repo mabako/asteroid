@@ -14,7 +14,7 @@ import teaching.WhiteBoard;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261529
+ * @version 201105261622
  */
 public class Sprite implements Runnable
 {
@@ -52,6 +52,7 @@ public class Sprite implements Runnable
 	 * @param y
 	 *            Y-Koordinate für Sprite-Mittelpunkt
 	 * @param radius
+	 *            Radius der BoundingBox
 	 */
 	public Sprite( Game game, double x, double y, int radius )
 	{
@@ -162,18 +163,18 @@ public class Sprite implements Runnable
 				gesamt.move( offset.getX( ), offset.getY( ) );
 
 				hasBeenChanged = true;
-				
+
 				// Grenzen-check
 				Point center = boundingBox.getCenter( );
 				int radius = boundingBox.getRadius( );
 				WhiteBoard whiteBoard = boundingBox.getWhiteBoard( );
-				
+
 				// Links/Rechts
 				if( center.getX( ) < whiteBoard.getMinX( ) - radius )
 					gesamt.move( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) + 2 * radius, 0 );
 				else if( center.getX( ) > whiteBoard.getMaxX( ) + radius )
 					gesamt.move( whiteBoard.getMinX( ) - whiteBoard.getMaxX( ) - 2 * radius, 0 );
-				
+
 				// Oben/Unten
 				if( center.getY( ) < whiteBoard.getMinY( ) - radius )
 					gesamt.move( 0, whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) + 2 * radius );
@@ -182,10 +183,10 @@ public class Sprite implements Runnable
 			}
 
 			// Sprite drehen
-			if( rotateAngle > Point.DELTA )
+			double rotateAngle = getRotateAngle( );
+			if( Math.abs( rotateAngle ) > Point.DELTA )
 			{
-				gesamt.rotate( boundingBox.getCenter( ), rotateAngle / ITERATIONS_PER_SECOND );
-
+				updateRotation( rotateAngle / ITERATIONS_PER_SECOND );
 				hasBeenChanged = true;
 			}
 
@@ -204,6 +205,18 @@ public class Sprite implements Runnable
 			}
 		}
 		while( game.isRunning( ) );
+	}
+
+	/**
+	 * Dreht das Objekt - aber ändert die Richtung, in welche es sich bewegt,
+	 * nicht
+	 * 
+	 * @param rotation
+	 *            um welchen Winkel gedreht werden soll
+	 */
+	protected void updateRotation( double rotation )
+	{
+		gesamt.rotate( boundingBox.getCenter( ), rotation );
 	}
 
 	/**
