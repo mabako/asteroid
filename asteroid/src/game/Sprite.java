@@ -14,7 +14,7 @@ import teaching.WhiteBoard;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261638
+ * @version 201105261642
  */
 public class Sprite implements Runnable
 {
@@ -155,7 +155,7 @@ public class Sprite implements Runnable
 
 			// Sprite bewegen, falls es eine Geschwindigkeit hat
 			double speed = getMoveSpeed( );
-			if( speed > Point.DELTA )
+			if( Math.abs( speed ) > Point.DELTA )
 			{
 				// Neue Koordinaten errechnen
 				Point offset = Util.getPointInFrontOf( speed / ITERATIONS_PER_SECOND, angle );

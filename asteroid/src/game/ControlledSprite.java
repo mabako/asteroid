@@ -8,7 +8,7 @@ import java.awt.Color;
  * Klasse für das Raumschiff als Sprite, welches man kontrollieren kann
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261638
+ * @version 201105261642
  */
 public class ControlledSprite extends Sprite
 {
@@ -89,7 +89,7 @@ public class ControlledSprite extends Sprite
 		else if( keyUp )
 			speed = Math.min( MAX_SPEED, speed + SPEED_DIFF );
 		else
-			speed = Math.max( 0, speed - SPEED_DIFF );
+			speed = Math.max( -MAX_SPEED, speed - SPEED_DIFF );
 		
 		
 		setMoveSpeed( speed );
