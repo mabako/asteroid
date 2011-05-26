@@ -13,7 +13,7 @@ import shapes.Polygon;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105260003
+ * @version 201105261441
  */
 public class Sprite implements Runnable
 {
@@ -34,6 +34,9 @@ public class Sprite implements Runnable
 
 	/** Distanz, um die das Sprite pro Sekunde bewegt wird */
 	private double speed = 0;
+
+	/** Winkel, um den sich das Sprite pro Sekunde bewegt */
+	private double rotateAngle = 0;
 
 	/** Wieoft der Thread pro Sekunde aufgerufen wird */
 	private static final int ITERATIONS_PER_SECOND = 50;
@@ -146,19 +149,32 @@ public class Sprite implements Runnable
 		int sleep = 1000 / ITERATIONS_PER_SECOND;
 		do
 		{
-			// Sofern sich unser Sprite nicht bewegt, ist Kollisionsberechnung
-			// witzlos
+			boolean hasBeenChanged = false;
+
+			// Sprite bewegen, falls es eine Geschwindigkeit hat
 			if( speed > Point.DELTA )
 			{
 				// Neue Koordinaten errechnen
-				Point offset = Util.getPointInFrontOf( speed, angle );
+				Point offset = Util.getPointInFrontOf( speed / ITERATIONS_PER_SECOND, angle );
 
 				// Figur bewegen
 				gesamt.move( offset.getX( ), offset.getY( ) );
 
+				hasBeenChanged = true;
+			}
+
+			// Sprite drehen
+			if( rotateAngle > Point.DELTA )
+			{
+				gesamt.rotate( boundingBox.getCenter( ), rotateAngle / ITERATIONS_PER_SECOND );
+
+				hasBeenChanged = true;
+			}
+
+			// Falls entweder Drehen oder Bewegen durchgeführt wurde
+			if( hasBeenChanged )
 				// Kollisionen berechnen
 				updateCollisions( );
-			}
 
 			try
 			{
@@ -224,6 +240,27 @@ public class Sprite implements Runnable
 	public void setMoveSpeed( double speed )
 	{
 		this.speed = speed;
+	}
+
+	/**
+	 * Gibt den Drehwinkel pro Sekunde zurück
+	 * 
+	 * @return Drehwinkel pro Sekunde
+	 */
+	public double getRotateAngle( )
+	{
+		return rotateAngle;
+	}
+
+	/**
+	 * Setzt den Winkel, um den das Sprite pro Sekunde gedreht wird
+	 * 
+	 * @param rotateAngle
+	 *            Drehwinkel
+	 */
+	public void setRotateAngle( double rotateAngle )
+	{
+		this.rotateAngle = rotateAngle;
 	}
 
 	/**

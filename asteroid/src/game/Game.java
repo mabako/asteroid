@@ -13,7 +13,7 @@ import teaching.WhiteBoard;
  * 
  * @author Marcus Bauer (mabako@gmail.com)
  *         Mathias Kuschel (mathias.kuschel@gmx.de)
- * @version 201105261424
+ * @version 201105261442
  */
 public final class Game implements Runnable
 {
@@ -82,7 +82,7 @@ public final class Game implements Runnable
 		ship = new ControlledSprite( this, 300, 300, 15 );
 		ship.createShip( );
 		ship.setAngle( -130 );
-		ship.setMoveSpeed( 2 );
+		ship.setMoveSpeed( 50 );
 		threads.add( new Thread( ship ) );
 
 		// Whiteboard temporär speichern
@@ -141,14 +141,16 @@ public final class Game implements Runnable
 				angle = zufallsgenerator.nextDouble( ) * 90 + 135;
 				break;
 		}
-
-		System.out.println( "Asteroid: r= " + radius + ", x=" + x + " y=" + y );
+		
+		// Zufällig im Winkel von -30° < w < 30° drehen
+		double rotateAngle = ( zufallsgenerator.nextDouble( ) - 0.5 ) * 60;
 
 		// Asteroid auf Koordinaten anlegen
 		Sprite s = new Sprite( this, x, y, radius );
 		s.createAsteroid( );
 		s.setAngle( angle );
-		s.setMoveSpeed( 3 * zufallsgenerator.nextDouble( ) / 4 );
+		s.setRotateAngle( rotateAngle );
+		s.setMoveSpeed( 30 * zufallsgenerator.nextDouble( ) );
 		return s;
 	}
 
