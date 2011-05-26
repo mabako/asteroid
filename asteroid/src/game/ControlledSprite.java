@@ -16,7 +16,10 @@ public class ControlledSprite extends Sprite
 	private static final int ROTATE_ANGLE = 90;
 	
 	/** Differenz, die maximal pro Sekunde hinzugefügt oder abgezogen wird */
-	private static final double SPEED_DIFF = 1.5;
+	private static final double SPEED_DIFF_MOVE = 1.5;
+	
+	/** Differenz, die ohne Beschleunigung hinzugefügt oder abgezogen wird */
+	private static final double SPEED_DIFF_IDLE = 0.25;
 	
 	/** Maximale Geschwindigkeit */
 	private static final double MAX_SPEED = 200;
@@ -84,12 +87,21 @@ public class ControlledSprite extends Sprite
 		boolean keyUp = keyListener.isKeyPressed( GameKeyListener.KEY_UP );
 		boolean keyDown = keyListener.isKeyPressed( GameKeyListener.KEY_DOWN );
 		
+		// keine oder beide Tasten gedrückt
 		if( keyUp == keyDown )
-			return speed;
+		{
+			// Falls rückwärts fliegt...
+			if( speed < 0 )
+				// Geschwindigkeit erhöhen (bis auf 0)
+				speed = Math.min( speed + SPEED_DIFF_IDLE, 0 );
+			else
+				// sonst Geschwindigkeit verringern (bis auf 0)
+				speed = Math.max( speed - SPEED_DIFF_IDLE, 0 );
+		}
 		else if( keyUp )
-			speed = Math.min( MAX_SPEED, speed + SPEED_DIFF );
+			speed = Math.min( MAX_SPEED, speed + SPEED_DIFF_MOVE );
 		else
-			speed = Math.max( -MAX_SPEED, speed - SPEED_DIFF );
+			speed = Math.max( -MAX_SPEED, speed - SPEED_DIFF_MOVE );
 		
 		
 		setMoveSpeed( speed );
