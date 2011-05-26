@@ -14,7 +14,7 @@ import teaching.WhiteBoard;
  * können
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261622
+ * @version 201105261638
  */
 public class Sprite implements Runnable
 {
@@ -154,6 +154,7 @@ public class Sprite implements Runnable
 			boolean hasBeenChanged = false;
 
 			// Sprite bewegen, falls es eine Geschwindigkeit hat
+			double speed = getMoveSpeed( );
 			if( speed > Point.DELTA )
 			{
 				// Neue Koordinaten errechnen

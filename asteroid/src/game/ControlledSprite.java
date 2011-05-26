@@ -8,12 +8,18 @@ import java.awt.Color;
  * Klasse für das Raumschiff als Sprite, welches man kontrollieren kann
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261621
+ * @version 201105261638
  */
 public class ControlledSprite extends Sprite
 {
 	/** Winkel, um der bei Drücken von links/rechts pro Sekunde gedreht wird */
 	private static final int ROTATE_ANGLE = 90;
+	
+	/** Differenz, die maximal pro Sekunde hinzugefügt oder abgezogen wird */
+	private static final double SPEED_DIFF = 1.5;
+	
+	/** Maximale Geschwindigkeit */
+	private static final double MAX_SPEED = 200;
 
 	/** KeyListener des Spiels */
 	private GameKeyListener keyListener;
@@ -67,6 +73,27 @@ public class ControlledSprite extends Sprite
 				getGame( ).stop( );
 			}
 		}
+	}
+	
+	/**
+	 * Gibt die evtl. geänderte Bewegungsgeschwindigkeit zurück
+	 */
+	public double getMoveSpeed( )
+	{
+		double speed = super.getMoveSpeed( );
+		boolean keyUp = keyListener.isKeyPressed( GameKeyListener.KEY_UP );
+		boolean keyDown = keyListener.isKeyPressed( GameKeyListener.KEY_DOWN );
+		
+		if( keyUp == keyDown )
+			return speed;
+		else if( keyUp )
+			speed = Math.min( MAX_SPEED, speed + SPEED_DIFF );
+		else
+			speed = Math.max( 0, speed - SPEED_DIFF );
+		
+		
+		setMoveSpeed( speed );
+		return speed;
 	}
 
 	/**

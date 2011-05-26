@@ -15,7 +15,7 @@ import teaching.WhiteBoard;
  * 
  * @author Marcus Bauer (mabako@gmail.com)
  *         Mathias Kuschel (mathias.kuschel@gmx.de)
- * @version 201105261600
+ * @version 201105261638
  */
 public final class Game implements Runnable
 {
@@ -90,8 +90,6 @@ public final class Game implements Runnable
 		// Raumschiff erstellen
 		ship = new ControlledSprite( this, 300, 300, 15, keyListener );
 		ship.createShip( );
-		ship.setAngle( -130 );
-		ship.setMoveSpeed( 50 );
 		threads.add( new Thread( ship ) );
 
 		// Whiteboard temporär speichern
