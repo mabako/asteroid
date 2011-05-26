@@ -174,6 +174,7 @@ public class Sprite implements Runnable
 		// Elemente vom Whiteboard entfernen
 		physical.setDrawn( false );
 		boundingBox.setDrawn( false );
+		game.getAsteroids( ).remove( this );
 	}
 
 	/**
