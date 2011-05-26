@@ -83,8 +83,8 @@ public class WhiteBoard {
         minX = maxX = minY = maxY = 0;
         if(!increaseBounds)
         {
-        	maxX = 640;
-        	maxY = 480;
+        	maxX = 800;
+        	maxY = 600;
         }
         closeListener = new WindowAdapter() {
 
@@ -99,15 +99,15 @@ public class WhiteBoard {
 
     /** Legt alle zum Zeichnen benoetigten Objekte an */
     private void initFrame() {
-        frame = new JFrame("WhiteBoard");
+        frame = new JFrame("Asteroids");
         container = frame.getContentPane();
         container.setLayout(new BorderLayout());
         scrollPane = new JScrollPane(graphicalComponent);
         scrollPane.getViewport().setBackground(Color.BLACK);
         graphicalComponent.setForeground(Color.GREEN);
         container.add(scrollPane, BorderLayout.CENTER);
-        frame.setSize(800, 600);
-        frame.setLocation(100, 100);
+        frame.pack();
+        frame.setResizable(false);
         frame.addWindowListener(closeListener);
         frame.setVisible(true);
         graphicalComponent.repaint();
@@ -479,78 +479,6 @@ public class WhiteBoard {
         }
     }
 
-    /**
-     * Methode zum @Demonstrieren und Testen der Zeichenmoeglichkeiten von WhiteBoard.<br>
-     * In der Methode actionPerformed des JButton sieht man, wie ein Objekt von der
-     * Zeichenflaeche wieder geloescht wird.<br>
-     * Die uebrigen Statements zeigen, wie unterschiedliche Objekte gezeichnet werden.
-     */
-    public void demo() {
-        JButton b = new JButton("weg mit der Form");
-        b.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                if (shapes.size() > 0) {
-                    wipeShape(shapes.get(shapes.size() - 1));
-                }
-
-            }
-        });
-        this.container.add(b, BorderLayout.SOUTH);
-        this.frame.validate();
-        ArrayList<Object> mainShapes = new ArrayList<Object>();
-        double[] xp = {0., 100., 150., 70.};
-        double yp[] = {160., 150., 300., -100.};
-        this.drawPolygon(xp, yp);
-        this.drawPolygon(yp, xp, Color.BLUE, true, Math.PI / 2);
-        this.drawPolygon(yp, xp, Color.RED, true, Math.PI);
-        this.drawPolygon(yp, xp, Color.GREEN, true, Math.PI * 3 / 2);
-        this.drawPolygon(yp, xp, Color.ORANGE, true, 0.);
-        this.drawLine(-400, 0, 400, 0);
-        this.drawLine(0, -400, 0, 400);
-        this.drawLine(-400, -0, 0, 400);
-        this.drawLine(0, -400, 400, 0);
-        this.drawLine(-400, 0, 0, -400);
-        this.drawLine(0, 400, 400, 0);
-        this.drawLine(0, 0, 100, 100);
-        this.drawLine(0, -400, 200, 200);
-        this.drawLine(0, -400, 200, -380);
-        this.drawEllipse(0, 0, 400, 400, Color.RED, false, 0);
-        this.drawLine(0, 0, 100, -100);
-        mainShapes.add(this.drawEllipse(-100, 0, 100, 100, Color.GREEN, true, 0));
-        this.drawLine(0, 0, -100, 0);
-        mainShapes.add(this.drawRectangle(100, 100, 100, 100, Color.ORANGE, false, Math.PI / 4));
-        mainShapes.add(this.drawArc(100, 100, 100, -100, -100, Color.BLUE, false));
-        this.drawPoint(150, 300);
-        mainShapes.add(this.drawRectangle(450, 450, 500, 500, Color.ORANGE, false, Math.PI / 4));
-        mainShapes.add(this.drawRectangle(450, 450, 496, 496, Color.BLUE, true, Math.PI / 4));
-        mainShapes.add(this.drawEllipse(700, 500, 500, 200, Color.GREEN, true, -Math.PI / 10));
-        this.drawLine(100, 0, 200, 100);
-        this.drawArc(100, 100, 400, 500, 100);
-        mainShapes.add(this.drawArc(110, 100, 110, 500, 80));
-        mainShapes.add(this.drawArc(90, 500, 90, 100, 80, Color.RED, true));
-        mainShapes.add(this.drawArc(120, 500, 120, 100, -80));
-
-        mainShapes.add(this.drawArc(600, 90, 200, 90, 80));
-        mainShapes.add(this.drawArc(200, 100, 600, 100, -80));
-        mainShapes.add(this.drawArc(200, 110, 600, 110, 80));
-        mainShapes.add(this.drawArc(600, 120, 200, 120, -80));
-
-        mainShapes.add(this.drawArc(500, 200, 600, 600, -80));
-        mainShapes.add(this.drawArc(510, 210, 590, 590, 80));
-        mainShapes.add(this.drawArc(580, 580, 520, 220, -70));
-        mainShapes.add(this.drawArc(570, 570, 530, 230, 70));
-    }
-
-    /** Test- Mainmethode fuer Klasse WhiteBoard
-     * @param args Kommandozeilenparameter (ignoriert)
-     */
-    public static void main(String[] args) {
-        final WhiteBoard wb = new WhiteBoard();
-        wb.demo();
-    }
-
     /** Baut Windows wieder auf, falls der Frame geschlossen wurde. */
     private void rebuild() {
         if (windowExited) {
@@ -638,4 +566,36 @@ public class WhiteBoard {
             return new Dimension((int) (maxX - minX + 3), (int) (maxY - minY + 3));
         }
     }
+
+	/**
+	 * @return the minX
+	 */
+	public double getMinX( )
+	{
+		return minX;
+	}
+
+	/**
+	 * @return the maxX
+	 */
+	public double getMaxX( )
+	{
+		return maxX;
+	}
+
+	/**
+	 * @return the minY
+	 */
+	public double getMinY( )
+	{
+		return minY;
+	}
+
+	/**
+	 * @return the maxY
+	 */
+	public double getMaxY( )
+	{
+		return maxY;
+	}
 }
