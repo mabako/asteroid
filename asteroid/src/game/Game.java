@@ -12,7 +12,8 @@ import teaching.WhiteBoard;
  * Das Spiel
  * 
  * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261223
+ *         Mathias Kuschel (mathias.kuschel@gmx.de)
+ * @version 201105261424
  */
 public final class Game implements Runnable
 {
@@ -46,7 +47,7 @@ public final class Game implements Runnable
 		// Alle Threads starten
 		for( Thread t : threads )
 			t.start( );
-		
+
 		// Warten, bis alle Threads beendet sind
 		for( Thread t : threads )
 		{
@@ -61,7 +62,9 @@ public final class Game implements Runnable
 	}
 
 	/**
-	 * Erstellt alle initialen Asteroiden und das Raumschiff, alles für ein Spiel
+	 * Erstellt alle initialen Asteroiden und das Raumschiff, alles für ein
+	 * Spiel
+	 * 
 	 * @return
 	 */
 	private List< Thread > setupSingleGame( )
@@ -74,65 +77,79 @@ public final class Game implements Runnable
 
 		// Liste mit Threads
 		List< Thread > threads = new LinkedList< Thread >( );
-		
+
 		// Raumschiff erstellen
 		ship = new ControlledSprite( this, 300, 300, 15 );
 		ship.createShip( );
 		ship.setAngle( -130 );
 		ship.setMoveSpeed( 2 );
 		threads.add( new Thread( ship ) );
-		
+
 		// Whiteboard temporär speichern
 		WhiteBoard whiteBoard = ship.getPhysical( ).getWhiteBoard( );
 
 		// Asteroiden anlegen
-		Random zufallsgenerator = new Random( );
-		for( int i = 0; i < asteroidCount; ++ i )
+		for( int i = 0; i < asteroidCount; ++i )
 		{
-			// Fester Radius
-			int radius = zufallsgenerator.nextInt( 30 ) + 10;
-			
-			// Anfang aussuchen
-			double x = 0, y = 0, angle = 0;
-			switch( zufallsgenerator.nextInt( 4 ) )
-			{
-				case 0:
-					// Befindet sich links des whiteboards
-					x = whiteBoard.getMinX( ) - radius;
-					y = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) ) + whiteBoard.getMinY( );
-					angle = zufallsgenerator.nextDouble( ) * 90 + 45;
-					break;
-				case 1:
-					// Rechts des Whiteboards
-					x = whiteBoard.getMaxX( ) + radius;
-					y = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) ) + whiteBoard.getMinY( );
-					angle = zufallsgenerator.nextDouble( ) * 90 + 225;
-					break;
-				case 2:
-					// unterhalb des whiteboards
-					x = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) ) + whiteBoard.getMinX( );
-					y = whiteBoard.getMinY( ) - radius;
-					angle = zufallsgenerator.nextDouble( ) * 90 + 315;
-					break;
-				case 3:
-					// oberhalb des whiteboards
-					x = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) ) + whiteBoard.getMinX( );
-					y = whiteBoard.getMaxY( ) + radius;
-					angle = zufallsgenerator.nextDouble( ) * 90 + 135;
-					break;
-			}
-			
-			System.out.println( "Asteroid: r= " + radius + ", x=" + x + " y=" + y );
-			
-			// Asteroid auf Koordinaten anlegen
-			Sprite s = new Sprite( this, x, y, radius );
-			s.createAsteroid( );
-			s.setAngle( angle );
-			s.setMoveSpeed( 3 * zufallsgenerator.nextDouble( ) / 4 );
+			Sprite s = createAsteroid( whiteBoard );
 			threads.add( new Thread( s ) );
 		}
 
 		return threads;
+	}
+
+	/**
+	 * Erstellt einen Asteroiden auf dem WhiteBoard
+	 * 
+	 * @param whiteBoard
+	 *            Whiteboard, auf dem Asteroid erstellt werden soll
+	 * @return Sprite des Asteroiden
+	 */
+	private Sprite createAsteroid( WhiteBoard whiteBoard )
+	{
+		Random zufallsgenerator = new Random( );
+
+		// Fester Radius
+		int radius = zufallsgenerator.nextInt( 30 ) + 10;
+
+		// Anfang aussuchen
+		double x = 0, y = 0, angle = 0;
+		switch( zufallsgenerator.nextInt( 4 ) )
+		{
+			case 0:
+				// Befindet sich links des whiteboards
+				x = whiteBoard.getMinX( ) - radius;
+				y = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) ) + whiteBoard.getMinY( );
+				angle = zufallsgenerator.nextDouble( ) * 90 + 45;
+				break;
+			case 1:
+				// Rechts des Whiteboards
+				x = whiteBoard.getMaxX( ) + radius;
+				y = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxY( ) - whiteBoard.getMinY( ) ) + whiteBoard.getMinY( );
+				angle = zufallsgenerator.nextDouble( ) * 90 + 225;
+				break;
+			case 2:
+				// unterhalb des whiteboards
+				x = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) ) + whiteBoard.getMinX( );
+				y = whiteBoard.getMinY( ) - radius;
+				angle = zufallsgenerator.nextDouble( ) * 90 + 315;
+				break;
+			case 3:
+				// oberhalb des whiteboards
+				x = zufallsgenerator.nextDouble( ) * ( whiteBoard.getMaxX( ) - whiteBoard.getMinX( ) ) + whiteBoard.getMinX( );
+				y = whiteBoard.getMaxY( ) + radius;
+				angle = zufallsgenerator.nextDouble( ) * 90 + 135;
+				break;
+		}
+
+		System.out.println( "Asteroid: r= " + radius + ", x=" + x + " y=" + y );
+
+		// Asteroid auf Koordinaten anlegen
+		Sprite s = new Sprite( this, x, y, radius );
+		s.createAsteroid( );
+		s.setAngle( angle );
+		s.setMoveSpeed( 3 * zufallsgenerator.nextDouble( ) / 4 );
+		return s;
 	}
 
 	/**
