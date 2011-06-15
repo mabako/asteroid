@@ -32,7 +32,7 @@ public final class Game implements Runnable
 	private ControlledSprite ship;
 
 	/** Anzahl der zu erstellenden Asteroiden */
-	private int asteroidCount = 20;
+	private int asteroidCount = 40;
 
 	/** KeyListener für GUI */
 	private GameKeyListener keyListener;
@@ -144,7 +144,7 @@ public final class Game implements Runnable
 		Random zufallsgenerator = new Random( );
 
 		// Fester Radius
-		int radius = zufallsgenerator.nextInt( 30 ) + 10;
+		int radius = zufallsgenerator.nextInt( 50 ) + 10;
 
 		// Anfang aussuchen
 		double x = 0, y = 0, angle = 0;
@@ -184,7 +184,7 @@ public final class Game implements Runnable
 		s.createAsteroid( );
 		s.setAngle( angle );
 		s.setRotateAngle( rotateAngle );
-		s.setMoveSpeed( 30 * zufallsgenerator.nextDouble( ) );
+		s.setMoveSpeed( 50 * zufallsgenerator.nextDouble( ) );
 		return s;
 	}
 
