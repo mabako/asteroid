@@ -3,6 +3,7 @@ package game;
 import gui.GameKeyListener;
 
 import java.awt.Color;
+import java.util.List;
 
 /**
  * Klasse für das Raumschiff als Sprite, welches man kontrollieren kann
@@ -69,11 +70,15 @@ public class ControlledSprite extends Sprite
 	@Override
 	protected void updateCollisions( )
 	{
-		for( Sprite s : getGame( ).getAsteroids( ) )
+		List< Sprite > asteroids = getGame( ).getAsteroids( );
+		synchronized( asteroids )
 		{
-			if( collidesWith( s ) )
+			for( Sprite s : asteroids )
 			{
-				getGame( ).stop( );
+				if( collidesWith( s ) )
+				{
+					getGame( ).stop( );
+				}
 			}
 		}
 	}
