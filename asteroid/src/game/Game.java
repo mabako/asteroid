@@ -92,7 +92,7 @@ public final class Game implements Runnable
 		shipThread.start( );
 		threads.add( shipThread );
 
-		// Whiteboard temporär speichern
+		// KeyListener fürs WhiteBoard auf unseren KeyListener setzen
 		WhiteBoard whiteBoard = ship.getPhysical( ).getWhiteBoard( );
 		whiteBoard.setKeyListener( keyListener );
 
