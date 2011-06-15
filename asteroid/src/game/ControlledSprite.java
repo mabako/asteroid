@@ -14,13 +14,13 @@ public class ControlledSprite extends Sprite
 {
 	/** Winkel, um der bei Drücken von links/rechts pro Sekunde gedreht wird */
 	private static final int ROTATE_ANGLE = 90;
-	
+
 	/** Differenz, die maximal pro Sekunde hinzugefügt oder abgezogen wird */
 	private static final double SPEED_DIFF_MOVE = 1.5;
-	
+
 	/** Differenz, die ohne Beschleunigung hinzugefügt oder abgezogen wird */
 	private static final double SPEED_DIFF_IDLE = 0.25;
-	
+
 	/** Maximale Geschwindigkeit */
 	private static final double MAX_SPEED = 200;
 
@@ -77,16 +77,17 @@ public class ControlledSprite extends Sprite
 			}
 		}
 	}
-	
+
 	/**
 	 * Gibt die evtl. geänderte Bewegungsgeschwindigkeit zurück
 	 */
+	@Override
 	public double getMoveSpeed( )
 	{
 		double speed = super.getMoveSpeed( );
 		boolean keyUp = keyListener.isKeyPressed( GameKeyListener.KEY_UP );
 		boolean keyDown = keyListener.isKeyPressed( GameKeyListener.KEY_DOWN );
-		
+
 		// keine oder beide Tasten gedrückt
 		if( keyUp == keyDown )
 		{
@@ -102,8 +103,7 @@ public class ControlledSprite extends Sprite
 			speed = Math.min( MAX_SPEED, speed + SPEED_DIFF_MOVE );
 		else
 			speed = Math.max( -MAX_SPEED, speed - SPEED_DIFF_MOVE );
-		
-		
+
 		setMoveSpeed( speed );
 		return speed;
 	}
@@ -114,6 +114,7 @@ public class ControlledSprite extends Sprite
 	 * @param rotation
 	 *            um welchen Winkel gedreht werden soll
 	 */
+	@Override
 	protected void updateRotation( double rotation )
 	{
 		setAngle( getAngle( ) + rotation );
@@ -125,6 +126,7 @@ public class ControlledSprite extends Sprite
 	 * 
 	 * @return Drehwinkel
 	 */
+	@Override
 	public double getRotateAngle( )
 	{
 		boolean keyLeft = keyListener.isKeyPressed( GameKeyListener.KEY_LEFT );

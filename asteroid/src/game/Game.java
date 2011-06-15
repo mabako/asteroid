@@ -24,6 +24,9 @@ public final class Game implements Runnable
 
 	/** Alle Asteroiden */
 	private List< Sprite > asteroids = Collections.synchronizedList( new ArrayList< Sprite >( ) );
+	
+	/** Alle Threads */
+	private List< Thread > threads = Collections.synchronizedList( new ArrayList< Thread >( ) );
 
 	/** Raumschiff */
 	private ControlledSprite ship;
@@ -51,18 +54,16 @@ public final class Game implements Runnable
 	@Override
 	public void run( )
 	{
-		List< Thread > threads = setupSingleGame( );
+		setupSingleGame( );
 
-		// Alle Threads starten
-		for( Thread t : threads )
-			t.start( );
-
+		int ended = 0;
 		// Warten, bis alle Threads beendet sind
 		for( Thread t : threads )
 		{
 			try
 			{
 				t.join( );
+				System.out.println(threads.size( ) - ++ended);
 			}
 			catch( InterruptedException e )
 			{
@@ -76,7 +77,7 @@ public final class Game implements Runnable
 	 * 
 	 * @return
 	 */
-	private List< Thread > setupSingleGame( )
+	private void setupSingleGame( )
 	{
 		ship = null;
 		asteroids = Collections.synchronizedList( new ArrayList< Sprite >( ) );
@@ -84,13 +85,12 @@ public final class Game implements Runnable
 		// Spiel läuft
 		running = true;
 
-		// Liste mit Threads
-		List< Thread > threads = new LinkedList< Thread >( );
-
 		// Raumschiff erstellen
 		ship = new ControlledSprite( this, 300, 300, 15, keyListener );
 		ship.createShip( );
-		threads.add( new Thread( ship ) );
+		Thread shipThread = new Thread( ship );
+		shipThread.start( );
+		threads.add( shipThread );
 
 		// Whiteboard temporär speichern
 		WhiteBoard whiteBoard = ship.getPhysical( ).getWhiteBoard( );
@@ -100,10 +100,10 @@ public final class Game implements Runnable
 		for( int i = 0; i < asteroidCount; ++i )
 		{
 			Sprite s = createAsteroid( whiteBoard );
-			threads.add( new Thread( s ) );
+			Thread t = new Thread( s );
+			t.start( );
+			threads.add( t );
 		}
-
-		return threads;
 	}
 
 	/**
