@@ -1,5 +1,6 @@
 package game;
 
+import gui.Fenster;
 import gui.GameKeyListener;
 
 import java.util.ArrayList;
@@ -56,9 +57,12 @@ public final class Game implements Runnable
 	@Override
 	public void run( )
 	{
+		Fenster fenster = new Fenster( );
+
 		while( lives > 0 )
 		{
 			setupSingleGame( );
+			fenster.setLives( lives );
 	
 			int ended = 0;
 			// Warten, bis alle Threads beendet sind
@@ -89,6 +93,8 @@ public final class Game implements Runnable
 			// Alles auf dem Whiteboard löschen
 			ship.getPhysical( ).getWhiteBoard( ).clear( );
 		}
+		fenster.setLives( lives );
+		ship.getPhysical( ).getWhiteBoard( ).close( );
 	}
 
 	/**

@@ -621,4 +621,12 @@ public class WhiteBoard {
 		frame.addKeyListener( keyListener );
 		this.keyListener = keyListener;
 	}
+
+	/**
+	 * Schließt WhiteBoard
+	 */
+	public void close( )
+	{
+		frame.dispose( );
+	}
 }
