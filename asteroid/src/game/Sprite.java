@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Color;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import java.util.Random;
 
 import shapes.Circle;
@@ -315,7 +317,29 @@ public class Sprite implements Runnable
 		// auch nicht verglichen werden
 		if( boundingBox.getCenter( ).distanceTo( other.getBoundingBox( ).getCenter( ) ) > ( boundingBox.getRadius( ) + other.getBoundingBox( ).getRadius( ) ) )
 			return false;
-		// TODO Auto-generated method stub
-		return true;
+		
+		ArrayList< Point > ownPoints = physical.getPoints( );
+		ArrayList< Point > otherPoints = other.getPhysical( ).getPoints( );
+		
+		// Alle Linien des eigenen Polygons testen
+		for( int i = 0; i < ownPoints.size( ); ++ i )
+		{
+			// Linie auf dem Polygon von A nach B
+			Point A = ownPoints.get( i );
+			Point B = ownPoints.get( (i+1) % ownPoints.size( ) );
+			
+			// Alle Linien des anderen Polygons testen
+			for( int j = 0; j < otherPoints.size( ); ++ j )
+			{
+				// Punkte C/D -> Linie auf dem anderen Polygon
+				Point C = otherPoints.get( j );
+				Point D = otherPoints.get( (j+1) % otherPoints.size( ) );
+				
+				// Test, ob beide Linien kollidieren
+				if( Line2D.linesIntersect( A.getX( ), A.getY( ), B.getX( ), B.getY( ), C.getX(), C.getY( ), D.getX( ), D.getY( )))
+					return true;
+			}
+		}
+		return false;
 	}
 }
