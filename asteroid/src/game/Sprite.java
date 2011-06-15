@@ -15,8 +15,8 @@ import teaching.WhiteBoard;
  * Klasse für Sprites, die im Falle von Asteroiden zufällig erstellt werden
  * können
  * 
- * @author Marcus Bauer (mabako@gmail.com)
- * @version 201105261642
+ * @author Marcus Bauer (mabako@gmail.com), Mathias Kuschel
+ * @version 201106151204
  */
 public class Sprite implements Runnable
 {
@@ -63,6 +63,7 @@ public class Sprite implements Runnable
 		// Boundingbox anlegen - Größe zufällig
 		boundingBox = new Circle( radius, new Point( x, y ) );
 		boundingBox.setColor( Color.RED );
+		boundingBox.setDrawn( false );
 
 		// Aktuelles Objekt anlegen
 		physical = new Polygon( );
