@@ -97,6 +97,7 @@ public class WhiteBoard {
             }
         };
         initFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /** Legt alle zum Zeichnen benoetigten Objekte an */
@@ -112,6 +113,7 @@ public class WhiteBoard {
         frame.setResizable(false);
         frame.addWindowListener(closeListener);
         frame.setVisible(true);
+        frame.setLocation( 0, 70 );
         graphicalComponent.repaint();
     }
     

@@ -15,7 +15,7 @@ import teaching.WhiteBoard;
  * 
  * @author Marcus Bauer (mabako@gmail.com)
  *         Mathias Kuschel (mathias.kuschel@gmx.de)
- * @version 201106151217
+ * @version 201106151242
  */
 public final class Game implements Runnable
 {
@@ -58,25 +58,25 @@ public final class Game implements Runnable
 	public void run( )
 	{
 		Fenster fenster = new Fenster( );
+		fenster.addKeyListener( keyListener );
 
 		while( lives > 0 )
 		{
 			setupSingleGame( );
 			fenster.setLives( lives );
 	
-			int ended = 0;
 			// Warten, bis alle Threads beendet sind
 			for( Thread t : threads )
 			{
 				try
 				{
 					t.join( );
-					System.out.println(threads.size( ) - ++ended);
 				}
 				catch( InterruptedException e )
 				{
 				}
 			}
+			threads.clear( );
 			
 			// Tot, also leben abziehen
 			lives --;
