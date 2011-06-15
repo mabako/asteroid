@@ -69,6 +69,18 @@ public final class Game implements Runnable
 			{
 			}
 		}
+		
+		// 2 Sekunden warten
+		try
+		{
+			Thread.sleep( 2000 );
+		}
+		catch( InterruptedException e )
+		{
+		}
+		
+		// Alles auf dem Whiteboard löschen
+		ship.getPhysical( ).getWhiteBoard( ).clear( );
 	}
 
 	/**

@@ -114,6 +114,15 @@ public class WhiteBoard {
         frame.setVisible(true);
         graphicalComponent.repaint();
     }
+    
+    /**
+     * Löscht alle Objekte von der Zeichenfläche
+     */
+    public synchronized void clear()
+    {
+    	shapes.clear( );
+   		graphicalComponent.repaint();
+    }
 
     /** Neuberechnung der Groesse der Zeichenflaeche. Dazu werden alle Shapes
      * durchgearbeitet.
