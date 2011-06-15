@@ -4,7 +4,6 @@ import gui.GameKeyListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +14,7 @@ import teaching.WhiteBoard;
  * 
  * @author Marcus Bauer (mabako@gmail.com)
  *         Mathias Kuschel (mathias.kuschel@gmx.de)
- * @version 201105261638
+ * @version 201106151217
  */
 public final class Game implements Runnable
 {
@@ -36,6 +35,9 @@ public final class Game implements Runnable
 
 	/** KeyListener für GUI */
 	private GameKeyListener keyListener;
+	
+	/** Anzahl der Leben */
+	private int lives = 3;
 
 	/**
 	 * Konstruktor für das Spiel
@@ -54,33 +56,39 @@ public final class Game implements Runnable
 	@Override
 	public void run( )
 	{
-		setupSingleGame( );
-
-		int ended = 0;
-		// Warten, bis alle Threads beendet sind
-		for( Thread t : threads )
+		while( lives > 0 )
 		{
+			setupSingleGame( );
+	
+			int ended = 0;
+			// Warten, bis alle Threads beendet sind
+			for( Thread t : threads )
+			{
+				try
+				{
+					t.join( );
+					System.out.println(threads.size( ) - ++ended);
+				}
+				catch( InterruptedException e )
+				{
+				}
+			}
+			
+			// Tot, also leben abziehen
+			lives --;
+			
+			// 2 Sekunden warten
 			try
 			{
-				t.join( );
-				System.out.println(threads.size( ) - ++ended);
+				Thread.sleep( 2000 );
 			}
 			catch( InterruptedException e )
 			{
 			}
+			
+			// Alles auf dem Whiteboard löschen
+			ship.getPhysical( ).getWhiteBoard( ).clear( );
 		}
-		
-		// 2 Sekunden warten
-		try
-		{
-			Thread.sleep( 2000 );
-		}
-		catch( InterruptedException e )
-		{
-		}
-		
-		// Alles auf dem Whiteboard löschen
-		ship.getPhysical( ).getWhiteBoard( ).clear( );
 	}
 
 	/**
